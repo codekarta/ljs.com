@@ -1,36 +1,31 @@
-name: Deploy Next.js Application
+# .github/workflows/deploy.yml
+
+name: Deploy on Merge
 
 on:
-  pull_request:
+  push:
     branches:
-      - main
+      - main  # Triggers the workflow on pushes to the 'main' branch
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  deploy:
+    runs-on: ubuntu-latest  # Specifies the environment to run the job on
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4  # Checks out your repository under $GITHUB_WORKSPACE
 
     - name: Set up Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
-        node-version: '20'
+        node-version: '20'  # Replace with the Node.js version your project requires
 
     - name: Install dependencies
-      run: npm install
+      run: npm install  # Replace with your package manager and install command
 
-    - name: Build the application
-      run: npm run build
+    - name: Build the project
+      run: npm run build  # Replace with your build command
 
-    - name: Merge PR
-      run: |  
-        echo "event_name: ${{ github.event_name}} action: ${{ github.event.action }} merged: ${{ github.event.pull_request.merged }}"    
-      #if: ${{ github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == false }}
-      # run: |
-      #   git checkout master
-      #   git merge --no-ff ${{ github.head_ref }}
-      #   git push origin master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Trigger Deployment Webhook
+      run: |
+        curl -X GET https://mp79ec07f5b997e38003.free.beeceptor.com/deploy/${{ github.event.repository.name }}/${{github.ref_name}} -H "x-webhook-secret: ${{ secrets.WEBHOOK_SECRET_TOKEN }}"
