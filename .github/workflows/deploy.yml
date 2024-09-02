@@ -25,10 +25,12 @@ jobs:
       run: npm run build
 
     - name: Merge PR
-      if: ${{ github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == false }}
-      run: |
-        git checkout master
-        git merge --no-ff ${{ github.head_ref }}
-        git push origin master
+      run: |  
+        echo "event_name: ${{ github.event_name}} action: ${{ github.event.action }} merged: ${{ github.event.pull_request.merged }}"    
+      #if: ${{ github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == false }}
+      # run: |
+      #   git checkout master
+      #   git merge --no-ff ${{ github.head_ref }}
+      #   git push origin master
       env:
-        GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
