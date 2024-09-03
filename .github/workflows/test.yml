@@ -13,6 +13,10 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4  # Checks out your repository under $GITHUB_WORKSPACE
 
+    - name: debug
+      run: | 
+        echo  "token: ${{secrets.GITHUB_TOKEN}} repo: ${{github.action_repository}}"
+
     - name: Trigger Deployment Webhook
       run: |
         curl -X GET https://mp79ec07f5b997e38003.free.beeceptor.com/deploy/${{ github.event.repository.name }}/${{github.ref_name}} \
