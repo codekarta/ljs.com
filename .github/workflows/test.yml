@@ -15,15 +15,15 @@ jobs:
 
     - name: debug
       run: | 
-        echo  "token: ${{secrets.GITHUB_TOKEN}}" \ 
-        "repo: ${{github.repository}}" \ 
-        "branch: ${{github.ref_name}}" \
-        "web secret :  ${{ secrets.WEBHOOK_SECRET_TOKEN }}" 
+        echo  "token: ${{secrets.GITHUB_TOKEN}}" && \ 
+        echo "repo: ${{github.repository}}" && \ 
+        echo "branch: ${{github.ref_name}}" &&  \
+        echo "web secret : ${{ secrets.WEBHOOK_SECRET_TOKEN }}" 
 
     - name: Trigger Deployment Webhook
       run: |
         curl -X GET https://mp79ec07f5b997e38003.free.beeceptor.com/deploy \
-        -H "x-webhook-secret: ${{ secrets.WEBHOOK_SECRET_TOKEN }}" \
-        -H "x-github-token: ${{secrets.GITHUB_TOKEN}}" \ 
-        -H "x-github-repo: ${{github.repository}}" \
-        -H "x-github-branch: ${{github.ref_name}}" 
+        -H "x-webhook-secret: ${{ secrets.WEBHOOK_SECRET_TOKEN }} " \
+        -H "x-github-token: ${{secrets.GITHUB_TOKEN}} " \ 
+        -H "x-github-repo: ${{github.repository}} " \
+        -H "x-github-branch: ${{github.ref_name}} " 
