@@ -1,0 +1,21 @@
+name: Test Job
+
+on:
+  push:
+    branches:
+      - update-message  # Triggers the workflow on pushes to the 'main' branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest  # Specifies the environment to run the job on
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4  # Checks out your repository under $GITHUB_WORKSPACE
+
+    - name: Trigger Deployment Webhook
+      run: |
+        curl -X GET https://mp79ec07f5b997e38003.free.beeceptor.com/deploy/${{ github.event.repository.name }}/${{github.ref_name}} \
+        -H "x-webhook-secret: ${{ secrets.WEBHOOK_SECRET_TOKEN }}" \
+        -H "x-github-token": ${{secrets.GITHUB_TOKEN}} \ 
+        -H "x-github-repo": ${{github.action_repository}}
